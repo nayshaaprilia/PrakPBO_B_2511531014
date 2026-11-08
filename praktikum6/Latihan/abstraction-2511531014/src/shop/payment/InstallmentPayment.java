@@ -10,7 +10,10 @@ public interface InstallmentPayment extends PaymentMethod {
             throw new IllegalArgumentException(
                     "Months must be between 1 and " + maxInstallmentMonths());
         }
-
         return (amount + months - 1) / months;
+    }
+    default String policy() {
+    return "Cicilan maksimal " + maxInstallmentMonths() + " bulan";
+
     }
 }

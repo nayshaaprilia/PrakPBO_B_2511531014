@@ -31,9 +31,14 @@ public class CheckoutService {
         return subtotal(items) + shipping.calculateCost(totalWeight(items));
     }
 
+    public long grandTotal(List<Product> items, ShippingService shipping, PaymentMethod payment) {
+    long base = total(items, shipping);
+    return base + payment.adminFee(base);
+    }
+
     public boolean checkout(List<Product> items, ShippingService shipping, PaymentMethod payment) {
-        long totalAmount = total(items, shipping);
-        return payment.pay(totalAmount);
+    long totalAmount = grandTotal(items, shipping, payment);
+    return payment.pay(totalAmount);
     }
 
     public boolean refund(RefundablePayment payment, long amount) {
